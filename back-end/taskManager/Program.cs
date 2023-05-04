@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
+using task_manager.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 string sqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(sqlConnection)

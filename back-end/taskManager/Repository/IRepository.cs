@@ -2,7 +2,7 @@
 
 namespace task_manager.Repository
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T>
     {
 
         IQueryable<T> Get();
