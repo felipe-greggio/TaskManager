@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
 using task_manager.Domain;
+using task_manager.Repository;
 
 namespace task_manager.Controllers
 {
@@ -10,9 +11,9 @@ namespace task_manager.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _context;
 
-        public ProjectsController(AppDbContext context)
+        public ProjectsController(IUnitOfWork context)
         {
             _context = context;
         }
@@ -20,22 +21,31 @@ namespace task_manager.Controllers
         [HttpGet]
         public ActionResult<IEnumerator<Project>> Get()
         {
-            return Ok(_context.Projects.AsNoTracking().ToList());
+            return Ok(_context.ProjectRepository.Get().ToList());
         }
 
         [HttpGet]
         [Route("GetProjectById/{projectId}")]
         public ActionResult<Project> GetProjectById(string projectId)
         {
-            return Ok(_context.Projects.AsNoTracking().FirstOrDefault(x => x.ProjectId.Equals(projectId)));
+            return Ok(_context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId)));
         }
+
+        [HttpGet]
+        [Route("GetProjectUsers/{projectId}")]
+        public ActionResult<Project> GetProjectUsers(string projectId)
+        {
+            return Ok(_context.ProjectRepository.GetProjectsUsers(projectId));
+
+        }
+
 
 
         [HttpPost]
         public ActionResult<Project> Post(Project project)
         {
-            _context.Projects.Add(project);
-            _context.SaveChanges();
+            _context.ProjectRepository.Add(project);
+            _context.Commit();
 
             return Ok(project);
         }
@@ -50,8 +60,8 @@ namespace task_manager.Controllers
                 return BadRequest("Ids não equivalentes");
             }
 
-            _context.Entry(project).State = EntityState.Modified;
-            _context.SaveChanges();
+            _context.ProjectRepository.Update(project);
+            _context.Commit();
 
             return Ok(project);
         }
@@ -61,10 +71,10 @@ namespace task_manager.Controllers
         public ActionResult<Project> Delete(string projectId)
         {
 
-            var project = _context.Projects.FirstOrDefault(x => x.ProjectId.Equals(projectId));
+            var project = _context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId));
 
-            _context.Projects.Remove(project);
-            _context.SaveChanges();
+            _context.ProjectRepository.Delete(project);
+            _context.Commit();
 
             return Ok(project);
         }
