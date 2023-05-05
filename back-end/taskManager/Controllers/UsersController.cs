@@ -26,7 +26,7 @@ namespace task_manager.Controllers
 
 
         [HttpGet]
-        [Route("GetAllUsers")]
+        [Route("GetAllUsers/{pageNumber}/{pageSize} bb")]
         public ActionResult<IEnumerable<UserDTO>> GetAllUsers()
         {
             try
