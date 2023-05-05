@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
+using task_manager.DTOs.Mappings;
 using task_manager.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,15 @@ string sqlConnection = builder.Configuration.GetConnectionString("DefaultConnect
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile<MappingProfile>();
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
+
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(sqlConnection)

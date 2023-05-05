@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
 using task_manager.Domain;
+using task_manager.DTOs;
 using task_manager.Repository;
 
 namespace task_manager.Controllers
@@ -12,34 +14,49 @@ namespace task_manager.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IUnitOfWork _context;
+        private readonly IMapper _mapper;
 
-        public ProjectsController(IUnitOfWork context)
+        public ProjectsController(IUnitOfWork context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+           
         }
 
         [HttpGet]
-        public ActionResult<IEnumerator<Project>> Get()
+        public ActionResult<IEnumerable<Project>> Get()
         {
-            return Ok(_context.ProjectRepository.Get().ToList());
+
+            var projects = _context.ProjectRepository.Get().ToList();
+            var projectsDto = _mapper.Map<List<ProjectDTO>>(projects);
+
+
+            return Ok(projectsDto);
         }
 
         [HttpGet]
         [Route("GetProjectById/{projectId}")]
-        public ActionResult<Project> GetProjectById(string projectId)
+        public ActionResult<ProjectDTO> GetProjectById(string projectId)
         {
-            return Ok(_context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId)));
+            var project =  _context.ProjectRepository.GetById(X => X.ProjectId.Equals(projectId));
+
+            var projectDto = _mapper.Map<ProjectDTO>(project);
+
+            return Ok(projectDto);
         }
 
         [HttpGet]
         [Route("GetProjectUsers/{projectId}")]
-        public ActionResult<Project> GetProjectUsers(string projectId)
+        public ActionResult<ProjectDTO> GetProjectUsers(string projectId)
         {
-            return Ok(_context.ProjectRepository.GetProjectsUsers(projectId));
+
+            var projectUsers = _context.ProjectRepository.GetProjectsUsers(x => x.ProjectId.Equals(projectId));
+
+            var projectUsersDto = _mapper.Map<ProjectDTO>(projectUsers);
+
+            return Ok(projectUsersDto);
 
         }
-
-
 
         [HttpPost]
         public ActionResult<Project> Post(Project project)
