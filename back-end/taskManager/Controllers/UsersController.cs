@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
 using task_manager.Domain;
 using task_manager.DTOs;
+using task_manager.Extensions;
 using task_manager.Repository;
+using task_manager.Response;
 
 namespace task_manager.Controllers
 {
@@ -26,29 +28,33 @@ namespace task_manager.Controllers
 
 
         [HttpGet]
-        [Route("GetAllUsers/{pageNumber}/{pageSize} bb")]
-        public ActionResult<IEnumerable<UserDTO>> GetAllUsers()
+        [Route("GetAllUsers/{pageNumber}/{pageSize}")]
+        public ResponseResult GetAllUsers(int pageNumber, int pageSize)
         {
             try
             {
 
                 _logger.LogInformation("==============GET api/users/GetAllUsers================");
-                var users = _context.UserRepository.Get().ToList();
+                var users = _context.UserRepository.Get();
 
                 if (users is null)
                 {
-                    return NotFound();
+                    return ResponseResult.ReturnNotFound("No users found", users);
                 }
 
+                users = users.Pagination(pageNumber, pageSize);
+                var count = users.Count();
                 var usersDto = _mapper.Map<List<UserDTO>>(users);
 
-                return Ok(usersDto);
+                return ResponseResult.ReturnSuccess("Request Successful", new PaginationDTO<UserDTO>(count, pageSize, pageNumber, usersDto));
+
 
             }
             catch (Exception)
             {
 
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar sua solicitação");
+                return ResponseResult.ReturnError("Ocorreu um problema ao tratar sua solicitação");
+                    
             }
 
             
