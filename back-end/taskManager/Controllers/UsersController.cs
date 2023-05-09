@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
 using task_manager.Domain;
+using task_manager.DTOs;
+using task_manager.Extensions;
+using task_manager.Repository;
+using task_manager.Response;
 
 namespace task_manager.Controllers
 {
@@ -9,39 +14,47 @@ namespace task_manager.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _context;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
 
-        public UsersController(AppDbContext context, ILogger<UsersController> logger)
+        public UsersController(IUnitOfWork context, ILogger<UsersController> logger, IMapper mapper)
         {
             _context = context;
             _logger = logger;
+            _mapper = mapper;
         }
 
 
         [HttpGet]
-        [Route("GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        [Route("GetAllUsers/{pageNumber}/{pageSize}")]
+        public async Task<ResponseResult> GetAllUsers(int pageNumber, int pageSize)
         {
             try
             {
 
                 _logger.LogInformation("==============GET api/users/GetAllUsers================");
-                var users = await _context.Users.AsNoTracking().ToListAsync();
+                var users = _context.UserRepository.Get();
 
                 if (users is null)
                 {
-                    return NotFound();
+                    return ResponseResult.ReturnNotFound("No users found", users);
                 }
 
-                return Ok(users);
+                users = users.Pagination(pageNumber, pageSize);
+                var count = await users.CountAsync();
+                var usersDto = _mapper.Map<List<UserDTO>>(users);
+
+                return ResponseResult.ReturnSuccess("Request Successful", new PaginationDTO<UserDTO>(count, pageSize, pageNumber, usersDto));
+
 
             }
             catch (Exception)
             {
 
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar sua solicitação");
+                return ResponseResult.ReturnError("Ocorreu um problema ao tratar sua solicitação");
+                    
             }
 
             
@@ -49,50 +62,39 @@ namespace task_manager.Controllers
 
         [HttpGet]
         [Route("GetUserById/{userId:guid}")]
-        public async Task<ActionResult<User>> GetUserById(string userId)
+        public async Task<ResponseResult> GetUserById(string userId)
         {
             try
             {
-                var user = await _context.Users.AsNoTracking()
-                                .FirstOrDefaultAsync(x => x.UserId.ToString() == userId);
+                var user = await _context.UserRepository.GetById(x => x.UserId.ToString() == userId);
 
                 if (user is null)
                 {
-                    return NotFound("Usuário não encontrado");
+                    return ResponseResult.ReturnNotFound("No users found", user);
                 }
 
-                return Ok(user);
+                var userDto = _mapper.Map<UserDTO>(user);
+
+                return ResponseResult.ReturnSuccess("Request Successful", userDto);
             }
             catch (Exception)
             {
 
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar sua solicitação");
+                return ResponseResult.ReturnError("Ocorreu um problema ao tratar sua solicitação");
             }
-
-
         }
 
         [HttpPost]
         [Route("RegisterUser")]
-        public ActionResult<User> RegisterUser(string name, string email, string password, string role, DateTime registerDate)
+        public async Task<ActionResult<User>> RegisterUser([FromBody] User user)
         {
 
             try
             {
-                var newUser = new User
-                {
-                    UserId = new Guid(),
-                    Name = name,
-                    Email = email,
-                    Password = password,
-                    Role = role,
-                    RegisterDate = registerDate
-                };
+                _context.UserRepository.Add(user);
+                await _context.Commit();
 
-                _context.Users.Add(newUser);
-                _context.SaveChanges();
-
-                return Created("RegisterUser", newUser);
+                return Created("RegisterUser", user);
             }
             catch (Exception)
             {
@@ -105,7 +107,7 @@ namespace task_manager.Controllers
 
         [HttpPut]
         [Route("UpdateUser/{userId}")]
-        public ActionResult<User> UpdateUser(string userId, User user)
+        public async Task<ActionResult<User>> UpdateUser(string userId, User user)
         {
             try
             {
@@ -114,9 +116,8 @@ namespace task_manager.Controllers
                     return BadRequest("Ids não equivalentes");
                 }
 
-
-                _context.Entry(user).State = EntityState.Modified;
-                _context.SaveChanges();
+                _context.UserRepository.Update(user);
+                await _context.Commit();
 
                 return Ok(user);
             }
@@ -129,20 +130,20 @@ namespace task_manager.Controllers
 
         [HttpDelete]
         [Route("DeleteUser/{userId}")]
-        public ActionResult DeleteUser(string userId)
+        public async Task<ActionResult> DeleteUser(string userId)
         {
 
             try
             {
-                var deletedUser = _context.Users.FirstOrDefault(x => x.UserId.ToString() == userId);
+                var deletedUser = await _context.UserRepository.GetById(x => x.UserId.ToString() == userId);
 
                 if (deletedUser is null)
                 {
                     return NotFound("Produto não localizado");
                 }
 
-                _context.Users.Remove(deletedUser);
-                _context.SaveChanges();
+                _context.UserRepository.Delete(deletedUser);
+                _context.Commit();
 
                 return Ok(deletedUser);
             }

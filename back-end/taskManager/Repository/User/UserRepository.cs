@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using task_manager.Context;
 using task_manager.Domain;
 
@@ -10,9 +11,9 @@ namespace task_manager.Repository.User
         {
         }
 
-        public IEnumerable<Domain.User> GetUsersByRole()
+        public async Task<IEnumerable<Domain.User>> GetUsersByRole()
         {
-            return Get().OrderBy(u => u.Role).ToList();
+            return await Get().OrderBy(u => u.Role).ToListAsync();
         }
 
     }
