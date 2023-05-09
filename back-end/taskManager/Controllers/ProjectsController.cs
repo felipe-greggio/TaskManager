@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using task_manager.Context;
 using task_manager.Domain;
 using task_manager.DTOs;
@@ -24,10 +25,10 @@ namespace task_manager.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get()
+        public async Task<ActionResult<IEnumerable<Project>>> Get()
         {
 
-            var projects = _context.ProjectRepository.Get().ToList();
+            var projects = await _context.ProjectRepository.Get().ToListAsync();
             var projectsDto = _mapper.Map<List<ProjectDTO>>(projects);
 
 
@@ -36,9 +37,9 @@ namespace task_manager.Controllers
 
         [HttpGet]
         [Route("GetProjectById/{projectId}")]
-        public ActionResult<ProjectDTO> GetProjectById(string projectId)
+        public async Task<ActionResult<ProjectDTO>> GetProjectById(string projectId)
         {
-            var project =  _context.ProjectRepository.GetById(X => X.ProjectId.Equals(projectId));
+            var project =  await _context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId));
 
             var projectDto = _mapper.Map<ProjectDTO>(project);
 
@@ -47,10 +48,10 @@ namespace task_manager.Controllers
 
         [HttpGet]
         [Route("GetProjectUsers/{projectId}")]
-        public ActionResult<ProjectDTO> GetProjectUsers(string projectId)
+        public async Task<ActionResult<ProjectDTO>> GetProjectUsers(string projectId)
         {
 
-            var projectUsers = _context.ProjectRepository.GetProjectsUsers(x => x.ProjectId.Equals(projectId));
+            var projectUsers = await _context.ProjectRepository.GetProjectsUsers(projectId);
 
             var projectUsersDto = _mapper.Map<ProjectDTO>(projectUsers);
 
@@ -59,7 +60,7 @@ namespace task_manager.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Project> Post(Project project)
+        public async Task<ActionResult<Project>> Post(Project project)
         {
             _context.ProjectRepository.Add(project);
             _context.Commit();
@@ -69,7 +70,7 @@ namespace task_manager.Controllers
 
         [HttpPut]
         [Route("UpdateProject/{projectId}")]
-        public ActionResult<Project> Put(string projectId, Project project)
+        public async Task<ActionResult<Project>> Put(string projectId, Project project)
         {
 
             if (!project.ProjectId.Equals(projectId))
@@ -78,20 +79,20 @@ namespace task_manager.Controllers
             }
 
             _context.ProjectRepository.Update(project);
-            _context.Commit();
+           await _context.Commit();
 
             return Ok(project);
         }
 
         [HttpDelete]
         [Route("DeleteProject/{projectId}")]
-        public ActionResult<Project> Delete(string projectId)
+        public async Task<ActionResult<Project>> Delete(string projectId)
         {
 
-            var project = _context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId));
+            var project = await _context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId));
 
             _context.ProjectRepository.Delete(project);
-            _context.Commit();
+            await _context.Commit();
 
             return Ok(project);
         }
