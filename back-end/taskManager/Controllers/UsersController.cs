@@ -29,7 +29,7 @@ namespace task_manager.Controllers
 
         [HttpGet]
         [Route("GetAllUsers/{pageNumber}/{pageSize}")]
-        public ResponseResult GetAllUsers(int pageNumber, int pageSize)
+        public async Task<ResponseResult> GetAllUsers(int pageNumber, int pageSize)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace task_manager.Controllers
                 }
 
                 users = users.Pagination(pageNumber, pageSize);
-                var count = users.Count();
+                var count = await users.CountAsync();
                 var usersDto = _mapper.Map<List<UserDTO>>(users);
 
                 return ResponseResult.ReturnSuccess("Request Successful", new PaginationDTO<UserDTO>(count, pageSize, pageNumber, usersDto));
@@ -62,37 +62,37 @@ namespace task_manager.Controllers
 
         [HttpGet]
         [Route("GetUserById/{userId:guid}")]
-        public ActionResult<UserDTO> GetUserById(string userId)
+        public async Task<ResponseResult> GetUserById(string userId)
         {
             try
             {
-                var user = _context.UserRepository.GetById(x => x.UserId.ToString() == userId);
+                var user = await _context.UserRepository.GetById(x => x.UserId.ToString() == userId);
 
                 if (user is null)
                 {
-                    return NotFound("Usuário não encontrado");
+                    return ResponseResult.ReturnNotFound("No users found", user);
                 }
 
                 var userDto = _mapper.Map<UserDTO>(user);
 
-                return Ok(userDto);
+                return ResponseResult.ReturnSuccess("Request Successful", userDto);
             }
             catch (Exception)
             {
 
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar sua solicitação");
+                return ResponseResult.ReturnError("Ocorreu um problema ao tratar sua solicitação");
             }
         }
 
         [HttpPost]
         [Route("RegisterUser")]
-        public ActionResult<User> RegisterUser([FromBody] User user)
+        public async Task<ActionResult<User>> RegisterUser([FromBody] User user)
         {
 
             try
             {
                 _context.UserRepository.Add(user);
-                _context.Commit();
+                await _context.Commit();
 
                 return Created("RegisterUser", user);
             }
@@ -107,7 +107,7 @@ namespace task_manager.Controllers
 
         [HttpPut]
         [Route("UpdateUser/{userId}")]
-        public ActionResult<User> UpdateUser(string userId, User user)
+        public async Task<ActionResult<User>> UpdateUser(string userId, User user)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace task_manager.Controllers
                 }
 
                 _context.UserRepository.Update(user);
-                _context.Commit();
+                await _context.Commit();
 
                 return Ok(user);
             }
@@ -130,12 +130,12 @@ namespace task_manager.Controllers
 
         [HttpDelete]
         [Route("DeleteUser/{userId}")]
-        public ActionResult DeleteUser(string userId)
+        public async Task<ActionResult> DeleteUser(string userId)
         {
 
             try
             {
-                var deletedUser = _context.UserRepository.GetById(x => x.UserId.ToString() == userId);
+                var deletedUser = await _context.UserRepository.GetById(x => x.UserId.ToString() == userId);
 
                 if (deletedUser is null)
                 {

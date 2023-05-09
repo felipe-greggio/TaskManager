@@ -10,9 +10,9 @@ namespace task_manager.Repository.Project
         {
         }
 
-        public IEnumerable<Domain.Project> GetProjectsUsers(string projectId)
+        public async Task<IEnumerable<Domain.Project>> GetProjectsUsers(string projectId)
         {
-            return Get().Include(u => u.UserProjects).ThenInclude(u => u.User).Where(x => x.ProjectId.Equals(projectId));
+            return await Get().Include(u => u.UserProjects).ThenInclude(u => u.User).Where(x => x.ProjectId.Equals(projectId)).ToListAsync();
         }
     }
 }

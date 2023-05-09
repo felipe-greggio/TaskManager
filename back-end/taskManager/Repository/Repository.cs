@@ -21,10 +21,11 @@ namespace task_manager.Repository
             return _entities.AsNoTracking();
         }
 
-        public T GetById(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetById(Expression<Func<T, bool>> predicate)
         {
-            return _entities.SingleOrDefault(predicate);
+            return await _entities.AsNoTracking().SingleOrDefaultAsync(predicate);               
         }
+
         public void Add(T entity)
         {
             _entities.Add(entity);

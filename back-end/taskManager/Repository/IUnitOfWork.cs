@@ -8,7 +8,7 @@ namespace task_manager.Repository
         IUserRepository UserRepository { get; }
         IProjectRepository ProjectRepository { get; }
 
-        void Commit();
+        Task Commit();
 
         void Dispose();
 
