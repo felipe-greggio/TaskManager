@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using task_manager.Context;
@@ -10,6 +12,7 @@ using task_manager.Response;
 
 namespace task_manager.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
@@ -26,7 +29,7 @@ namespace task_manager.Controllers
             _mapper = mapper;
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllUsers/{pageNumber}/{pageSize}")]
         public async Task<ResponseResult> GetAllUsers(int pageNumber, int pageSize)
