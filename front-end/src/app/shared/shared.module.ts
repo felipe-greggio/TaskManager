@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
+import { HttpClientModule } from '@angular/common/http';
 
 const MaterialComponents = [
   MatButtonModule
@@ -23,7 +24,8 @@ const PrimeComponents = [
   imports: [
     MaterialComponents,
     PrimeComponents,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
     MaterialComponents,

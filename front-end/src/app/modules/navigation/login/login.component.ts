@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers:[AuthService]
 })
 export class LoginComponent {
 
@@ -14,7 +17,9 @@ export class LoginComponent {
   });
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {
 
 
   }
@@ -25,10 +30,21 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      // here you should handle form data and pass it to your login method
+      console.log(this.loginForm);
+      this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!).subscribe(response =>{
+        if(response.success){
+          window.alert(response.message);
+          localStorage.setItem('token', JSON.stringify(response.data));
+          this.router.navigate(['/landing']);
+        }else if(!response.success){
+          window.alert(response.message);
+          this.resetForm();
+        }});
     }
   }
 
+  private resetForm() {
+    this.loginForm.reset();
+  }
 
 }
