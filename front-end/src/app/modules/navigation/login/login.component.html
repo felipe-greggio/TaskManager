@@ -1,0 +1,23 @@
+<!-- login.component.html -->
+
+<div class="login-container">
+  <div class="header">
+    <h1 class="title">Task Manager</h1>
+  </div>
+  <p-card class="login-card" header="Login">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="input-container">
+        <input type="text" pInputText formControlName="email" placeholder="Email" />
+        <p-message severity="error" text="Email is required." *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched"></p-message>
+        <p-message severity="error" text="Please enter a valid email address." *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched"></p-message>
+      </div>
+
+      <div class="input-container">
+        <input type="password" pInputText placeholder="Password" formControlName="password" />
+        <p-message severity="error" text="Password is required." *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched"></p-message>
+        <p-message severity="error" text="Password must be at least 6 characters long." *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched"></p-message>
+      </div>
+        <p-button label="Login" type="submit" ></p-button>
+    </form>
+  </p-card>
+</div>

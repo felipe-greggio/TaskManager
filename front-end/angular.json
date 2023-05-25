@@ -25,6 +25,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/primeicons/primeicons.css",
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.css"
             ],
@@ -88,6 +89,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/primeicons/primeicons.css",
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.css"
             ],
