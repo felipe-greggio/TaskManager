@@ -30,12 +30,11 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm);
       this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!).subscribe(response =>{
         if(response.success){
           window.alert(response.message);
           localStorage.setItem('token', JSON.stringify(response.data));
-          this.router.navigate(['/landing']);
+          this.router.navigate(['/projects']);
         }else if(!response.success){
           window.alert(response.message);
           this.resetForm();

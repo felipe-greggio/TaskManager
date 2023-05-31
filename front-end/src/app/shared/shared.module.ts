@@ -7,9 +7,13 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import { HttpClientModule } from '@angular/common/http';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 
 const MaterialComponents = [
-  MatButtonModule
+  MatButtonModule,
+  MatSidenavModule,
+  MatListModule
 ]
 
 const PrimeComponents = [
@@ -17,7 +21,7 @@ const PrimeComponents = [
   CardModule,
   MessagesModule,
   MessageModule,
-  InputTextModule
+  InputTextModule,
 ]
 
 @NgModule({

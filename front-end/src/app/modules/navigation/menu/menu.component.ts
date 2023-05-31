@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
 
+  constructor() { }
+
+  logout() {
+    // Handle your logout action here.
+    console.log('Logging out...');
+  }
+
 }
