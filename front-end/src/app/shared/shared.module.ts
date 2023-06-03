@@ -9,11 +9,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 const MaterialComponents = [
   MatButtonModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatToolbarModule,
+  MatIconModule
 ]
 
 const PrimeComponents = [

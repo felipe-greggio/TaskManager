@@ -7,11 +7,19 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
 
+  isOpen=true;
+
   constructor() { }
 
   logout() {
     // Handle your logout action here.
     console.log('Logging out...');
+  }
+
+  toggleSideNav(){
+
+    this.isOpen = !this.isOpen;
+
   }
 
 }

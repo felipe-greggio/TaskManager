@@ -1,19 +1,25 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav class="sidenav" mode="side" opened="true">
-    <mat-nav-list>
-      <a mat-list-item routerLink="/" routerLinkActive="active">Home</a>
+
+  <mat-toolbar class = "toolbar mat-elevation-z6">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleSideNav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Task Manager</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container ">
+  <mat-sidenav class="sidenav mat-elevation-z24" mode="side" [opened]="isOpen">
+    <mat-nav-list >
+      <a style="color:black" mat-list-item routerLink="/" routerLinkActive="active">Home</a>
       <a mat-list-item routerLink="/users" routerLinkActive="active">Users</a>
       <a mat-list-item routerLink="/projects" routerLinkActive="active">Projects</a>
       <a mat-list-item (click)="logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <ng-content></ng-content>
+  <mat-sidenav-content class="sidenav-content">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-<div class="content">
-  <router-outlet></router-outlet>
-</div>

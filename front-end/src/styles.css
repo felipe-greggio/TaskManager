@@ -3,5 +3,13 @@
 @import "~primeng/resources/themes/saga-blue/theme.css";
 @import "~primeng/resources/primeng.css";
 
-html, body { height: 100%; }
+html, body { height: 100%;
+margin: 0;
+}
+
 body { font-family: var(--font-family); }
+
+
+.mdc-list-item__primary-text{
+  color: black !important;
+}
