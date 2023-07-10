@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Register a new project</h1>
+<div mat-dialog-content>
+  <div class="flex-column" [formGroup] = "registerProjectForm">
+    <mat-form-field>
+      <mat-label>Project Name</mat-label>
+      <input matInput cdkFocusInitial formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field style="margin-bottom: 10px">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+</div>
+<div class="space-dialog-buttons" mat-dialog-actions >
+  <button mat-raised-button color="primary" (click)="cancelClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="registerNewProject()" [disabled]="!registerProjectForm.valid">Register</button>
+</div>
