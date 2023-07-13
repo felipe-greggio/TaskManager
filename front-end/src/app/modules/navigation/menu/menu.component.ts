@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { RegisterProjectDialogComponent } from '../../manager/projects/register-project-dialog/register-project-dialog.component';
 
 @Component({
   selector: 'app-menu',
@@ -9,17 +11,18 @@ export class MenuComponent {
 
   isOpen=true;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   logout() {
-    // Handle your logout action here.
     console.log('Logging out...');
   }
 
   toggleSideNav(){
-
     this.isOpen = !this.isOpen;
+  }
 
+  openProjectsDialog(){
+    const dialogRef = this.dialog.open(RegisterProjectDialogComponent);
   }
 
 }

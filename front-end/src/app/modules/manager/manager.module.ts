@@ -3,15 +3,20 @@ import { CommonModule } from '@angular/common';
 
 import { ManagerRoutingModule } from './manager-routing.module';
 import { ProjectsComponent } from './projects/projects.component';
+import { RegisterProjectDialogComponent } from './projects/register-project-dialog/register-project-dialog.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    ProjectsComponent
+    ProjectsComponent,
+    RegisterProjectDialogComponent
   ],
   imports: [
     CommonModule,
-    ManagerRoutingModule
-  ]
+    ManagerRoutingModule,
+    SharedModule
+  ],
+  exports:[RegisterProjectDialogComponent]
 })
 export class ManagerModule { }
