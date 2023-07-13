@@ -1,35 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\A426694\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj": {}
+    "C:\\Users\\Felipe-Greggio\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\A426694\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj": {
+    "C:\\Users\\Felipe-Greggio\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\A426694\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj",
+        "projectUniqueName": "C:\\Users\\Felipe-Greggio\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj",
         "projectName": "taskManager",
-        "projectPath": "C:\\Users\\A426694\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj",
-        "packagesPath": "C:\\Users\\A426694\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\A426694\\source\\repos\\TaskManager\\back-end\\taskManager\\obj\\",
+        "projectPath": "C:\\Users\\Felipe-Greggio\\source\\repos\\TaskManager\\back-end\\taskManager\\taskManager.csproj",
+        "packagesPath": "C:\\Users\\Felipe-Greggio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Felipe-Greggio\\source\\repos\\TaskManager\\back-end\\taskManager\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\A426694\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Felipe-Greggio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "http://nexus.it.volvo.net/repository/drs-ms-core": {},
-          "http://nexus.it.volvo.net/repository/nuget-drs-ms": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/Commercial-Solutions-LA/_packaging/CS-Aftermarket-LA/nuget/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -99,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

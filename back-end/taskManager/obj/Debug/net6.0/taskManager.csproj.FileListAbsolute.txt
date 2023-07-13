@@ -169,3 +169,6 @@ C:\Users\A426694\source\repos\TaskManager\back-end\taskManager\obj\Debug\net6.0\
 C:\Users\A426694\source\repos\TaskManager\back-end\taskManager\obj\Debug\net6.0\taskManager.pdb
 C:\Users\A426694\source\repos\TaskManager\back-end\taskManager\obj\Debug\net6.0\taskManager.genruntimeconfig.cache
 C:\Users\A426694\source\repos\TaskManager\back-end\taskManager\obj\Debug\net6.0\ref\taskManager.dll
+C:\Users\Felipe-Greggio\Source\Repos\TaskManager\back-end\taskManager\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\Felipe-Greggio\Source\Repos\TaskManager\back-end\taskManager\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Felipe-Greggio\Source\Repos\TaskManager\back-end\taskManager\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

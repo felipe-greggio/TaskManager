@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,12 @@ using task_manager.Context;
 using task_manager.Domain;
 using task_manager.DTOs;
 using task_manager.Repository;
+using task_manager.Response;
 
 namespace task_manager.Controllers
 {
-    [Route("[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : ControllerBase
     {
@@ -60,12 +63,21 @@ namespace task_manager.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Project>> Post(Project project)
+        public async Task<ResponseResult> RegisterProject([FromBody] Project project)
         {
-            _context.ProjectRepository.Add(project);
-            _context.Commit();
+            try
+            {
+                project.ProjectId = new Guid();
+                project.Status = Domain.Enums.EnumProjectStatus.Ongoing;
+                _context.ProjectRepository.Add(project);
+                _context.Commit();
 
-            return Ok(project);
+                return ResponseResult.ReturnSuccess("RequestSuccessFull", project);
+            }
+            catch (Exception)
+            {
+                return ResponseResult.ReturnError("Ocorreu um problema ao tratar sua solicitação");
+            }
         }
 
         [HttpPut]
