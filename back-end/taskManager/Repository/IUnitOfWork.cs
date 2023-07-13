@@ -1,4 +1,5 @@
 ﻿using task_manager.Repository.Project;
+using task_manager.Repository.Task;
 using task_manager.Repository.User;
 
 namespace task_manager.Repository
@@ -7,8 +8,8 @@ namespace task_manager.Repository
     {
         IUserRepository UserRepository { get; }
         IProjectRepository ProjectRepository { get; }
-
-        Task Commit();
+        ITaskRepository TasksRepository { get; }
+        System.Threading.Tasks.Task Commit();
 
         void Dispose();
 
