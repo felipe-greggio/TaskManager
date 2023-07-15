@@ -1,7 +1,16 @@
-<p>projects wodsadsadsadsadsarks!</p>
-<p>projects wodsadsadsadsadsarks!</p>
-<p>projects wodsadsadsadsadsarks!</p>
-<p>projects wodsadsadsadsadsarks!</p>
-<p>projects wodsadsadsadsadsarks!</p>
-<p>projects wodsadsadsadsadsarks!</p>
-<p>projects wodsadsadsadsadsarks!</p>
+<div class="margin-card">
+  <mat-form-field>
+    <mat-label>Select Project</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let project of projectList" [value]="project.projectId">
+        {{project.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-card>
+    <mat-card-content>
+
+    </mat-card-content>
+  </mat-card>
+</div>

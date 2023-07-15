@@ -33,7 +33,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!).subscribe(response =>{
         if(response.success){
           window.alert(response.message);
-          localStorage.setItem('token', JSON.stringify(response.data));
+          localStorage.setItem('token', response.data);
           this.router.navigate(['/projects']);
         }else if(!response.success){
           window.alert(response.message);
