@@ -16,6 +16,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatSelectModule} from '@angular/material/select';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -27,7 +29,9 @@ const MaterialComponents = [
   MatInputModule,
   MatFormFieldModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatCardModule,
+  MatSelectModule
 ]
 
 const PrimeComponents = [
