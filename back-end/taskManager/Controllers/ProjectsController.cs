@@ -28,7 +28,8 @@ namespace task_manager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> Get()
+        [Route("GetAllProjects")]
+        public async Task<ActionResult<IEnumerable<Project>>> GetAllProjects()
         {
 
             var projects = await _context.ProjectRepository.Get().ToListAsync();
