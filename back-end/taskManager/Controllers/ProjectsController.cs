@@ -41,7 +41,7 @@ namespace task_manager.Controllers
 
         [HttpGet]
         [Route("GetProjectById/{projectId}")]
-        public async Task<ActionResult<ProjectDTO>> GetProjectById(string projectId)
+        public async Task<ActionResult<ProjectDTO>> GetProjectById(Guid projectId)
         {
             var project =  await _context.ProjectRepository.GetById(x => x.ProjectId.Equals(projectId));
 
@@ -51,15 +51,15 @@ namespace task_manager.Controllers
         }
 
         [HttpGet]
-        [Route("GetProjectUsers/{projectId}")]
-        public async Task<ActionResult<ProjectDTO>> GetProjectUsers(string projectId)
+        [Route("GetProjectInfo/{projectId}")]
+        public async Task<ActionResult<ProjectDTO>> GetProjectUsers(Guid projectId)
         {
 
-            var projectUsers = await _context.ProjectRepository.GetProjectsUsers(projectId);
+            var project = await _context.ProjectRepository.GetProjectByIdIncludeUsersAndTasks(projectId);
 
-            var projectUsersDto = _mapper.Map<ProjectDTO>(projectUsers);
+            var projectDto = _mapper.Map<ProjectDTO>(project);
 
-            return Ok(projectUsersDto);
+            return Ok(projectDto);
 
         }
 
