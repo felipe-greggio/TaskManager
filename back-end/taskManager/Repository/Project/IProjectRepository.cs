@@ -4,7 +4,6 @@ namespace task_manager.Repository.Project
 {
     public interface IProjectRepository : IRepository<Domain.Project>
     {
-
-        Task<IEnumerable<Domain.Project>> GetProjectsUsers(string projectId);
+        Task<Domain.Project> GetProjectByIdIncludeUsersAndTasks(Guid projectId);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using task_manager.Domain;
+using task_manager.Domain.Enums;
 using task_manager.DTOs;
 using task_manager.Extensions;
 using task_manager.Repository;
@@ -86,6 +87,7 @@ namespace task_manager.Controllers
 
             try
             {
+                task.Status = EnumTaskStatus.NotStarted;
                 _context.TasksRepository.Add(task);
                 await _context.Commit();
 

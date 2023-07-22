@@ -10,7 +10,6 @@ namespace task_manager.DTOs
 
         public string? Name { get; set; }
         public EnumProjectStatus? Status { get; set; }
-        public ICollection<UserProjectDTO>? UserProjects { get; set; }
-        public ICollection<TaskDTO>? Tasks { get; set; }
+        public ICollection<UserDTO>? Users { get; set; }
     }
 }
