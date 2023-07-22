@@ -1,8 +1,18 @@
+import { User } from "./User";
+
 export interface Project
 {
   projectId?: string;
   name?: string;
-  status?: number;
+  status?: ProjectStatus;
   startDate?: string;
   endDate?: string;
+  Users?: User[];
+}
+
+export enum ProjectStatus{
+  Cancelled = 0,
+  Ongoing = 1,
+  Delayed = 2,
+  Completed = 3
 }

@@ -18,6 +18,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
+import { ProjectStatusPipe } from './Utils/project-status.pipe';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -53,6 +54,9 @@ const PrimeComponents = [
     MaterialComponents,
     PrimeComponents,
     ReactiveFormsModule
+  ],
+  declarations: [
+    ProjectStatusPipe
   ]
 })
 export class SharedModule { }

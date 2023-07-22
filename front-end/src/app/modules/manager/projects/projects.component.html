@@ -1,15 +1,23 @@
 <div class="margin-card">
-  <mat-form-field>
+
+  <mat-form-field appearance="outline">
     <mat-label>Select Project</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let project of projectList" [value]="project.projectId">
+    <mat-select [(value)]="selectedProject"  (selectionChange)="loadProjectInfo()">
+      <mat-option *ngFor="let project of projectList" [value]="project">
         {{project.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-card>
+  <mat-card *ngIf="projectInfo">
     <mat-card-content>
+      <div class="flex-card">
+        <h1>{{projectInfo.name}}</h1>
+        <p class="margin-space">{{getProjectStatus(projectInfo.status!) }}</p>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="openRegisterTaskDialog()">{{'Add Task'}}</button>
+
 
     </mat-card-content>
   </mat-card>
