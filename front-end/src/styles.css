@@ -23,3 +23,8 @@ body { font-family: var(--font-family); }
   display: flex;
   justify-content: space-around !important;
 }
+
+.flex-card{
+  display: flex;
+  justify-content: start;
+}
