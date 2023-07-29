@@ -18,27 +18,39 @@
 
       <button mat-raised-button color="primary" (click)="openRegisterTaskDialog()">{{'Add Task'}}</button>
 
-      <div class="task-grid">
+      <div class="task-grid" cdkDropListGroup>
         <div class="row" *ngFor="let user of projectUsers">
           <div class="user-name">
             <span>{{user.name}}</span>
           </div>
-          <div class="task-column" *ngFor="let status of statuses" cdkDropList [cdkDropListData]="getTasksForStatus(user, status)" [cdkDropListId]="status" (cdkDropListDropped)="drop($event, status)">
+          <div *ngFor="let status of statuses; let i=index" class="task-column" cdkDropList
+               [cdkDropListData]="getTasksForStatus(user, status)"
+               [cdkDropListConnectedTo]="getConnectedLists(user, i)"
+               [id]="'taskList-' + user.userId + '-' + status"
+               (cdkDropListDropped)="drop($event, status, user)">
             <h2>{{status}}</h2>
-            <div cdkDropList [cdkDropListData]="getTasksForStatus(user, status)" (cdkDropListDropped)="drop($event, status)">
-              <mat-card *ngFor="let task of getTasksForStatus(user, status)" class="task-card" cdkDrag>
-                <mat-card-header>
-                  <mat-card-title>{{task.title}}</mat-card-title>
-                  <mat-card-subtitle>{{task.status}}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>{{task.description}}</p>
-                </mat-card-content>
-              </mat-card>
-            </div>
+            <mat-card *ngFor="let task of getTasksForStatus(user, status)" class="task-card" cdkDrag>
+              <div class="custom-placeholder" *cdkDragPlaceholder></div>
+              <mat-card-header>
+                <mat-card-title>{{task.title}}</mat-card-title>
+                <mat-card-subtitle>{{task.status}}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>{{task.description}}</p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button (click)="openUpdateTaskDialog(task)">Edit</button>
+              </mat-card-actions>
+            </mat-card>
           </div>
         </div>
       </div>
+
+
+
+
+
+
 
     </mat-card-content>
   </mat-card>

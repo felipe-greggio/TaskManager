@@ -20,4 +20,8 @@ export class TaskService extends BaseService{
     return this.http.post(`${environment.apiUrl}/Tasks/RegisterNewTask`, newTask, super.getRequestHeaders())
   }
 
+  updateTask(taskId: string, task:Task): Observable<Task>{
+    return this.http.put<Task>(`${environment.apiUrl}/Tasks/UpdateTask/${taskId}`, task, super.getRequestHeaders());
+  }
+
 }

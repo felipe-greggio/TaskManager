@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/shared/Models/User';
 import { EnumTaskStatus, Task } from 'src/app/shared/Models/Task';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { UpdateTaskDialogComponent } from './update-task-dialog/update-task-dialog.component';
+import { TaskService } from 'src/app/shared/Services/task-service.service';
 
 @Component({
   selector: 'app-projects',
@@ -27,7 +29,8 @@ statuses: number[] = [0,1,2,3];
 
   constructor(
     public projectService: ProjectService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public taskService: TaskService) {
 
     this.projectService.getAllProjects().subscribe(projects => {
       this.projectList = projects;
@@ -62,11 +65,7 @@ statuses: number[] = [0,1,2,3];
     return this.projectUsers.flatMap(user => user.tasks == undefined ? [] : user.tasks.filter(task => task.status === status));
   }
 
-  getTasksForStatus(user: User, status: number): Task[] {
-    return user.tasks == undefined ? [] : user.tasks.filter(task => task.status === status);
-  }
-
-  drop(event: CdkDragDrop<Task[]>, newStatus: number): void {
+  drop(event: CdkDragDrop<Task[]>, newStatus: number, user: User): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -82,23 +81,39 @@ statuses: number[] = [0,1,2,3];
       );
 
       let task = event.container.data[event.currentIndex];
-      // Here we are converting the newStatus to its corresponding EnumTaskStatus value
-      //task.status = EnumTaskStatus[newStatus as keyof typeof EnumTaskStatus];
       task.status = newStatus;
+      task.projectId = this.projectInfo.projectId;
+      task.userId = user.userId;
 
-      // Call your update method here
-      this.projectService.updateTask(task.taskId as string, task).subscribe(
+      this.taskService.updateTask(task.taskId as string, task).subscribe(
         updatedTask => {
-          // Handle success
           console.log("Task updated: ", updatedTask);
         },
         error => {
-          // Handle error
           console.error("Update task failed: ", error);
         }
       );
     }
   }
 
+  getConnectedLists(user: User, i: number): string[] {
+    const ids = this.statuses
+      .map((s, j) => i !== j ? `taskList-${user.userId}-${j}` : null)
+      .filter(id => id !== null) as string[];
+    return ids;
+  }
+
+  getTasksForStatus(user: User, status: number): Task[] {
+    const tasks = user.tasks == undefined ? [] : user.tasks.filter(task => task.status === status);
+    return tasks;
+  }
+
+  openUpdateTaskDialog(task: Task): void {
+    const data = {
+      key: this.projectInfo,
+      task: task
+    };
+    const dialogRef = this.dialog.open(UpdateTaskDialogComponent, { data });
+  }
 
 }

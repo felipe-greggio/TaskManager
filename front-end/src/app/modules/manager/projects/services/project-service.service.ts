@@ -29,8 +29,4 @@ export class ProjectService extends BaseService {
   postNewProject(newProject:Project): Observable<any> {
     return this.http.post(`${environment.apiUrl}/Projects`, newProject, super.getRequestHeaders());
   }
-
-  updateTask(taskId: string, task:Task): Observable<Task>{
-    return this.http.put<Task>(`${environment.apiUrl}/Tasks/${taskId}`, task, super.getRequestHeaders());
-  }
 }
