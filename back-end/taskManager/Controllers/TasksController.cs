@@ -117,7 +117,7 @@ namespace task_manager.Controllers
             }
             catch (Exception)
             {
-                return ResponseResult.ReturnError("Something went wrong. Task not updated");
+                return ResponseResult.ReturnFail("Something went wrong. Task not updated");
             }
         }
 
