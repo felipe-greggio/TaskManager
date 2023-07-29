@@ -19,6 +19,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import { ProjectStatusPipe } from './Utils/project-status.pipe';
+import { MixedCdkDragDropModule } from 'angular-mixed-cdk-drag-drop';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -32,7 +34,8 @@ const MaterialComponents = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatCardModule,
-  MatSelectModule
+  MatSelectModule,
+  DragDropModule
 ]
 
 const PrimeComponents = [
@@ -43,12 +46,16 @@ const PrimeComponents = [
   InputTextModule,
 ]
 
+
+MixedCdkDragDropModule.forRoot({ autoScrollStep: 4 });
+
 @NgModule({
   imports: [
     MaterialComponents,
     PrimeComponents,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MixedCdkDragDropModule
   ],
   exports: [
     MaterialComponents,

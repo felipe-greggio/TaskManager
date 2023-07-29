@@ -7,7 +7,7 @@ export interface Project
   status?: ProjectStatus;
   startDate?: string;
   endDate?: string;
-  Users?: User[];
+  users?: User[];
 }
 
 export enum ProjectStatus{

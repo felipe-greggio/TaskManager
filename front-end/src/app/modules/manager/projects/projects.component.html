@@ -18,6 +18,27 @@
 
       <button mat-raised-button color="primary" (click)="openRegisterTaskDialog()">{{'Add Task'}}</button>
 
+      <div class="task-grid">
+        <div class="row" *ngFor="let user of projectUsers">
+          <div class="user-name">
+            <span>{{user.name}}</span>
+          </div>
+          <div class="task-column" *ngFor="let status of statuses" cdkDropList [cdkDropListData]="getTasksForStatus(user, status)" [cdkDropListId]="status" (cdkDropListDropped)="drop($event, status)">
+            <h2>{{status}}</h2>
+            <div cdkDropList [cdkDropListData]="getTasksForStatus(user, status)" (cdkDropListDropped)="drop($event, status)">
+              <mat-card *ngFor="let task of getTasksForStatus(user, status)" class="task-card" cdkDrag>
+                <mat-card-header>
+                  <mat-card-title>{{task.title}}</mat-card-title>
+                  <mat-card-subtitle>{{task.status}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>{{task.description}}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </mat-card-content>
   </mat-card>
