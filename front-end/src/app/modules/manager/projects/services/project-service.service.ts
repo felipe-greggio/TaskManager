@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Project } from 'src/app/shared/Models/Project';
+import { Task } from 'src/app/shared/Models/Task';
 import { BaseService } from 'src/app/shared/Services/base-service.service';
 import { environment } from 'src/environments/environment';
 
@@ -26,6 +27,6 @@ export class ProjectService extends BaseService {
 
 
   postNewProject(newProject:Project): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/Projects`, newProject, super.getRequestHeaders())
+    return this.http.post(`${environment.apiUrl}/Projects`, newProject, super.getRequestHeaders());
   }
 }

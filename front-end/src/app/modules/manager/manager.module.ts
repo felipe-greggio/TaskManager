@@ -6,13 +6,15 @@ import { ProjectsComponent } from './projects/projects.component';
 import { RegisterProjectDialogComponent } from './projects/register-project-dialog/register-project-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RegisterTaskDialogComponent } from './projects/register-task-dialog/register-task-dialog.component';
+import { UpdateTaskDialogComponent } from './projects/update-task-dialog/update-task-dialog.component';
 
 
 @NgModule({
   declarations: [
     ProjectsComponent,
     RegisterProjectDialogComponent,
-    RegisterTaskDialogComponent
+    RegisterTaskDialogComponent,
+    UpdateTaskDialogComponent
   ],
   imports: [
     CommonModule,
