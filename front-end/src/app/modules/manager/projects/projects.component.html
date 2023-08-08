@@ -13,11 +13,21 @@
     <mat-card-content>
       <div class="flex-card">
         <h1>{{projectInfo.name}}</h1>
-        <p class="margin-space">{{getProjectStatus(projectInfo.status!) }}</p>
+        <span [ngClass]="{
+        'cancelled':projectInfo.status == 0,
+        'ongoing':projectInfo.status == 1,
+        'delayed':projectInfo.status == 2,
+        'completed':projectInfo.status == 3}">{{getProjectStatus(projectInfo.status!) }}</span>
       </div>
 
       <button mat-raised-button color="primary" (click)="openRegisterTaskDialog()">{{'Add Task'}}</button>
 
+      <div class="status-row">
+        <span>Not Started</span>
+        <span>Postponed</span>
+        <span>In Progress</span>
+        <span>Done</span>
+      </div>
       <div class="task-grid" cdkDropListGroup>
         <div class="row" *ngFor="let user of projectUsers">
           <div class="user-name">
@@ -28,12 +38,15 @@
                [cdkDropListConnectedTo]="getConnectedLists(user, i)"
                [id]="'taskList-' + user.userId + '-' + status"
                (cdkDropListDropped)="drop($event, status, user)">
-            <h2>{{status}}</h2>
             <mat-card *ngFor="let task of getTasksForStatus(user, status)" class="task-card" cdkDrag>
               <div class="custom-placeholder" *cdkDragPlaceholder></div>
               <mat-card-header>
                 <mat-card-title>{{task.title}}</mat-card-title>
-                <mat-card-subtitle>{{task.status}}</mat-card-subtitle>
+                <mat-card-subtitle style="margin:10px 0 10px 0" [ngClass]="{'not-started':task.status == 0,
+                'postponed':task.status == 1,
+                'in-progress':task.status == 2,
+                'done':task.status == 3}">
+              </mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
                 <p>{{task.description}}</p>
